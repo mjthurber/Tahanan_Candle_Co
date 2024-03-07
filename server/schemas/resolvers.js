@@ -59,11 +59,14 @@ const resolvers = {
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
       await Order.create({ products: args.products.map(({ _id }) => _id) });
-      // eslint-disable-next-line camelcase
-      const line_items = [];
 
-      // eslint-disable-next-line no-restricted-syntax
+      const line_items = [];
+      let totalAmount = 0;
+
       for (const product of args.products) {
+        const unitAmount = product.price * 100;
+        totalAmount += unitAmount * product.purchaseQuantity;
+
         line_items.push({
           price_data: {
             currency: 'usd',
@@ -72,9 +75,24 @@ const resolvers = {
               description: product.description,
               images: [`${url}/images/${product.image}`],
             },
-            unit_amount: product.price * 100,
+            unit_amount: unitAmount,
           },
           quantity: product.purchaseQuantity,
+        });
+      }
+
+      // Add a $10 fee if the total amount is less than $50
+      if (totalAmount < 5000) {
+        line_items.push({
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'Shipping Fee',
+              description: 'Shipping Fee for Orders Less than $50',
+            },
+            unit_amount: 1000, // $10 in cents
+          },
+          quantity: 1,
         });
       }
 
