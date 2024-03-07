@@ -1,3 +1,12 @@
+.banner {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #293F14;
+    background-color: #F9EBC7;
+    padding: 10px 0;
+    text-align: center;
+}
 .me-auto {
     font-family: 'Fira Sans', sans-serif;
     font-size: 20px;
