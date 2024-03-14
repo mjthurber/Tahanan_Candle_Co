@@ -1,5 +1,4 @@
 const typeDefs = `
-
   type Product {
     _id: ID
     name: String
@@ -15,10 +14,20 @@ const typeDefs = `
     size: String
   }
 
+  type Review {
+    _id: ID
+    productId: ID
+    userId: ID
+    reviewText: String
+    createdAt: String
+    user: User
+  }
+
   type Order {
     _id: ID
     purchaseDate: String
     products: [Product]
+    reviews: [Review]
   }
 
   type User {
@@ -61,6 +70,7 @@ const typeDefs = `
     users: [User]
     order(_id: ID!): Order
     checkout(products: [ProductInput]): Checkout
+    productReviews(productId: ID!): [Review]
   }
 
   type Mutation {
@@ -69,6 +79,7 @@ const typeDefs = `
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
+    addReview(productId: ID!, userId: ID!, reviewText: String!): Review
   }
 `;
 

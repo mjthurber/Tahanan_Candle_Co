@@ -1,12 +1,14 @@
 const db = require('./connection');
-const { User, Product } = require('../models');
+const { User, Product, Review } = require('../models');
 const cleanDB = require('./cleanDB');
+const { insertMany } = require('../models/Review');
 
 
 
 db.once('open', async () => {
   await cleanDB('Product', 'products');
   await cleanDB('User', 'users');
+  await cleanDB('Review', 'reviews');
 
 
   const products = await Product.insertMany([
@@ -66,19 +68,52 @@ db.once('open', async () => {
 
   console.log('products seeded');
 
-  await User.create({
-    firstName: 'Matthew',
-    lastName: 'Thurber',
-    email: 'a@a.com',
-    password: '12345',
-    orders: [
-      {
-        products: [products[0]._id, products[0]._id, products[1]._id]
-      }
-    ]
-  });
+  const users = await User.insertMany([
+    {
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@example.com',
+      password: 'password123',
+      orders: [
+        {
+          products: [products[0]._id, products[1]._id]
+        }
+      ]
+    },
+    {
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'jane@example.com',
+      password: 'password456',
+      orders: [
+        {
+          products: [products[2]._id, products[3]._id]
+        }
+      ]
+    },
+    // Add more users as needed
+  ]);
 
   console.log('users seeded');
+
+  const reviews = await Review.insertMany([
+    {
+      productId: products[0]._id,
+      userId: users[0]._id,
+      reviewText: "Absolutely love this candle! The scent is so unique and delightful.",
+      createdAt: new Date(),
+    },
+    {
+      productId: products[1]._id,
+      userId: users[0]._id,
+      reviewText: "Great scent, but wish it lasted longer.",
+      createdAt: new Date(),
+    },
+    // Add more reviews as needed
+  ]);
+
+
+  console.log('reviews seeded');
 
   process.exit();
 });

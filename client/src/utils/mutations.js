@@ -11,6 +11,18 @@ export const LOGIN = gql`
   }
 `;
 
+export const MUTATION_ADD_REVIEW = gql`
+  mutation addReview($productId: ID!, $userId: ID!, $reviewText: String!) {
+    addReview(productId: $productId, userId: $userId, reviewText: $reviewText) {
+      _id
+      productId
+      userId
+      reviewText
+      createdAt
+    }
+  }
+`;
+
 export const ADD_ORDER = gql`
   mutation addOrder($products: [ID]!) {
     addOrder(products: $products) {

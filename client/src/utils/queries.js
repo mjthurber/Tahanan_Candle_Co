@@ -8,6 +8,22 @@ export const QUERY_CHECKOUT = gql`
   }
 `;
 
+export const QUERY_PRODUCT_REVIEWS = gql`
+  query getProductReviews($productId: ID!) {
+    productReviews(productId: $productId) {
+      _id
+      productId
+      userId
+      reviewText
+      createdAt
+      user {
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
 export const QUERY_ALL_PRODUCTS = gql`
   query getAllProducts {
     products {
