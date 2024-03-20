@@ -109,7 +109,6 @@ db.once('open', async () => {
       reviewText: "Great scent, but wish it lasted longer.",
       createdAt: new Date(),
     },
-    // Add more reviews as needed
   ]);
 
 

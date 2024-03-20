@@ -17,6 +17,7 @@ import Terms from './pages/Terms';
 import Returns from './pages/Returns';
 import Shipping from './pages/Shipping';
 import Success from './pages/Success';
+import Reviews from './pages/Reviews';
 
 
 
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
       {
         path: '/success',
         element: <Success />
+      },
+      {
+        path: '/reviews/:productId',
+        element: <Reviews />
       }
     ]
   }
